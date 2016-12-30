@@ -1,0 +1,14 @@
+name: HoneypotChecker
+main: com.jaoafa.HoneypotChecker.HoneypotChecker
+version: 0.0.3
+description: Honeypot Plugin
+database: true
+author: mine_book000
+softdepend: [PermissionsEx, MCBans]
+website: https://jaoafa.com/
+commands:
+   honeypot:
+      description: Honeypot
+      usage: /<command>
+      permission: honeypotchecker.honeypot
+      permission-message: You do not have permission to perform this command.

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.jaoafa</groupId>
   <artifactId>HoneypotChecker</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <name>HoneypotChecker</name>
   <build>
     <plugins>
@@ -67,6 +67,14 @@
     	<groupId>ru.tehkode</groupId>
     	<artifactId>PermissionsEx</artifactId>
     	<version>1.23.1</version>
+    </dependency>
+    <!-- MCBans -->
+    <dependency>
+      <groupId>com.mcbans.firestar</groupId>
+      <artifactId>mcbans</artifactId>
+      <version>4.3.3</version>
+        <systemPath>${basedir}/lib/MCBans.jar</systemPath>
+        <scope>system</scope>
     </dependency>
   </dependencies>
 </project>
