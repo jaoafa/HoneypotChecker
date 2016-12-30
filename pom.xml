@@ -2,6 +2,71 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.jaoafa</groupId>
   <artifactId>HoneypotChecker</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <name>HoneypotChecker</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+  	<!-- Spigot/Bukkit -->
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <!-- URLCodeC -->
+    <repository>
+      <id>commons-codec</id>
+      <url>https://mvnrepository.com/artifact/commons-codec/commons-codec</url>
+    </repository>
+    <!-- PermissionsEx(PEX) -->
+    <repository>
+    	<id>pex-repo</id>
+    	<url>http://pex-repo.aoeu.xyz</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <!--Spigot-API-->
+  	<dependency>
+    	<groupId>org.spigotmc</groupId>
+    	<artifactId>spigot-api</artifactId>
+    	<version>1.8.8-R0.1-SNAPSHOT</version>
+  	</dependency>
+  	<!--Bukkit API-->
+  	<dependency>
+    	<groupId>org.bukkit</groupId>
+    	<artifactId>bukkit</artifactId>
+    	<version>1.8.8-R0.1-SNAPSHOT</version>
+  	</dependency>
+  	<!--CraftBukkit-->
+    <dependency>
+         <groupId>org.bukkit</groupId>
+         <artifactId>craftbukkit</artifactId>
+         <version>1.8.8-R0.1-SNAPSHOT</version>
+         <systemPath>${basedir}/lib/craftbukkit-1.8.8.jar</systemPath>
+        <scope>system</scope>
+    </dependency>
+  	<!-- URLCodeC -->
+	<dependency>
+    	<groupId>commons-codec</groupId>
+    	<artifactId>commons-codec</artifactId>
+    	<version>1.4</version>
+	</dependency>
+	<!-- PermissionsEx(PEX) -->
+	<dependency>
+    	<groupId>ru.tehkode</groupId>
+    	<artifactId>PermissionsEx</artifactId>
+    	<version>1.23.1</version>
+    </dependency>
+  </dependencies>
 </project>
