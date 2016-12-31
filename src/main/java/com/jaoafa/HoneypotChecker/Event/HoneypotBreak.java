@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -88,7 +89,7 @@ public class HoneypotBreak implements Listener {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				long unixtime = System.currentTimeMillis();
 				statement.executeUpdate("INSERT INTO Honeypot_History (`player`, `uuid`, `world`, `x`, `y`, `z`, `block`, `locid`, `unixtime`, `date`) VALUES ('" + player.getName() + "', '" + player.getUniqueId() + "', '" + block.getLocation().getWorld().getName() + "', " + block.getLocation().getBlockX() + ", " + block.getLocation().getBlockY() + ", " + block.getLocation().getBlockZ() + ", '" + block.getType().toString() + "', " + honeylocid + ", " + unixtime + ", '" + sdf.format(new Date()) + "');");
-				ResultSet res1 = statement1.executeQuery("SELECT COUNT(id) FROM Honeypot_History WHERE uuid = \"" + uuid + "\" AND unixtime => " + (unixtime - 604800) + ";");
+				ResultSet res1 = statement1.executeQuery("SELECT COUNT(id) FROM Honeypot_History WHERE uuid = \"" + uuid + "\";");
 				int count = 0;
 				if(res1.next()){
 					count = res1.getInt(1);
@@ -104,7 +105,8 @@ public class HoneypotBreak implements Listener {
 				}else if(count == 10){
 					//今回で10回目
 					player.chat("I have been caught destroying a honeypot block.");
-					Bukkit.getServer().getBannedPlayers().add(player);
+					Date date = new Date();
+					Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), "[Honeypot] You have been caught destroying a honeypot block.", date, "[Honeypot]");
 					MCBans.getInstance().getAPI(plugin).localBan(player.getName(), player.getUniqueId().toString(), "[Honeypot]", "", "[Honeypot] You have been caught destroying a honeypot block.");
 					player.kickPlayer("[Honeypot] You have been caught destroying a honeypot block.");
 				}else{
@@ -168,7 +170,7 @@ public class HoneypotBreak implements Listener {
 			String uuid = player.getUniqueId().toString();
 			long unixtime = System.currentTimeMillis();
 			try {
-				ResultSet res = statement.executeQuery("SELECT * FROM Honeypot_History WHERE uuid = \"" + uuid + "\" AND unixtime => " + (unixtime - 604800) + ";");
+				ResultSet res = statement.executeQuery("SELECT * FROM Honeypot_History WHERE uuid = \"" + uuid + "\" AND unixtime < " + (unixtime - 604800) + ";");
 				while(res.next()){
 					statement1.executeUpdate("DELETE FROM `Honeypot_History` WHERE `id` = " + res.getInt("id"));
 				}
