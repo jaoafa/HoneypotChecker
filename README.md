@@ -1,5 +1,5 @@
 # HoneypotChecker
-[![Build Status](https://travis-ci.org/jaoafa/MyMaid2.svg?branch=master)](https://travis-ci.org/jaoafa/MyMaid2)
+[![Build Status](https://travis-ci.org/jaoafa/HoneypotChecker.svg?branch=master)](https://travis-ci.org/jaoafa/MyMaid2)
 [![Support jdk](https://img.shields.io/badge/Support%20jdk-openjdk7-yellow.svg)](https://img.shields.io)
 [![Author](https://img.shields.io/badge/Author%20MinecraftID-mine__book000-orange.svg)](https://img.shields.io)
 [![License](https://img.shields.io/badge/license-None-yellow.svg)](https://img.shields.io)  
