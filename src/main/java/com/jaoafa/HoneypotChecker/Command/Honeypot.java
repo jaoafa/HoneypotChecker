@@ -184,5 +184,6 @@ public class Honeypot implements CommandExecutor {
 		HoneypotChecker.SendMessage(sender, cmd, "/honeypot add X1 Y1 Z1 X2 Y2 Z2: Honeypotを追加します。");
 		HoneypotChecker.SendMessage(sender, cmd, "/honeypot remove <HoneypotLocationID>: Honeypotを削除します。");
 		return true;
+
 	}
 }
