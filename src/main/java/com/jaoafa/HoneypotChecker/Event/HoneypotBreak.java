@@ -110,7 +110,9 @@ public class HoneypotBreak implements Listener {
 					MCBans.getInstance().getAPI(plugin).localBan(player.getName(), player.getUniqueId().toString(), "[Honeypot]", "", "[Honeypot] You have been caught destroying a honeypot block.");
 					player.kickPlayer("[Honeypot] You have been caught destroying a honeypot block.");
 				}else{
-					player.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + "あなたはHoneypotを破壊しました。");
+					if(!PermissionsEx.getUser(player).inGroup("Limited")){
+						player.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + "あなたはHoneypotを破壊しました。");
+					}
 					HoneypotChecker.url_jaoplugin("honeypot", "p="+player.getName()+"&i="+honeylocid+"&c="+count);
 				}
 			}else{
