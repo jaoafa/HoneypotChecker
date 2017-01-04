@@ -111,7 +111,9 @@ public class HoneypotBreak implements Listener {
 					player.kickPlayer("[Honeypot] You have been caught destroying a honeypot block.");
 				}else{
 					if(!PermissionsEx.getUser(player).inGroup("Limited")){
-						player.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + "あなたはHoneypotを破壊しました。");
+						if(!PermissionsEx.getUser(player).inGroup("QPPE")){
+							player.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + "あなたはHoneypotを破壊しました。");
+						}
 					}
 					HoneypotChecker.url_jaoplugin("honeypot", "p="+player.getName()+"&i="+honeylocid+"&c="+count);
 				}
