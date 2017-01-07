@@ -54,6 +54,7 @@ public class Honeypot implements CommandExecutor {
 			HoneypotChecker.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
 			return true;
 		}
+		statement = MySQL.check(statement);
 		if(args.length == 0){
 			ResultSet res;
 			try {

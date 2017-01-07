@@ -30,6 +30,7 @@ public class HoneypotBreak implements Listener {
 	public HoneypotBreak(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onHoneypotBreak(BlockBreakEvent event){
 		Block block = event.getBlock();
@@ -40,6 +41,7 @@ public class HoneypotBreak implements Listener {
 		if(PermissionsEx.getUser(player).inGroup("Admin")){
 			return;
 		}
+
 		new honeypot_delete(plugin, player).runTaskAsynchronously(plugin);
 		Statement statement;
 		try {
@@ -59,7 +61,6 @@ public class HoneypotBreak implements Listener {
 			e.printStackTrace();
 			return;
 		}
-
 		Statement statement1;
 		try {
 			statement1 = HoneypotChecker.c.createStatement();
@@ -78,6 +79,9 @@ public class HoneypotBreak implements Listener {
 			e.printStackTrace();
 			return;
 		}
+
+		statement = MySQL.check(statement);
+		statement1 = MySQL.check(statement1);
 
 		ResultSet res;
 		try {
@@ -107,8 +111,10 @@ public class HoneypotBreak implements Listener {
 					player.chat("I have been caught destroying a honeypot block.");
 					Date date = new Date();
 					Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), "[Honeypot] You have been caught destroying a honeypot block.", date, "[Honeypot]");
+					player.setBanned(true);
 					MCBans.getInstance().getAPI(plugin).localBan(player.getName(), player.getUniqueId().toString(), "[Honeypot]", "", "[Honeypot] You have been caught destroying a honeypot block.");
 					player.kickPlayer("[Honeypot] You have been caught destroying a honeypot block.");
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:ban " + player.getName() + " [Honeypot] You have been caught destroying a honeypot block.");
 				}else{
 					if(!PermissionsEx.getUser(player).inGroup("Limited")){
 						if(!PermissionsEx.getUser(player).inGroup("QPPE")){
