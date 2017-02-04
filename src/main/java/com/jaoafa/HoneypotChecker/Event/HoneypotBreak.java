@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -94,6 +95,10 @@ public class HoneypotBreak implements Listener {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				long unixtime = System.currentTimeMillis();
 				if(block.getType().isSolid()){
+					event.setCancelled(true);
+					return;
+				}
+				if(block.getType() == Material.AIR){
 					event.setCancelled(true);
 					return;
 				}
