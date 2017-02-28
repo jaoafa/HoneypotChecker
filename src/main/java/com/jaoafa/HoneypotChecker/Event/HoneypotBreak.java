@@ -40,6 +40,9 @@ public class HoneypotBreak implements Listener {
 		if(PermissionsEx.getUser(player).inGroup("Regular")){
 			return;
 		}
+		if(PermissionsEx.getUser(player).inGroup("Moderator")){
+			return;
+		}
 		if(PermissionsEx.getUser(player).inGroup("Admin")){
 			return;
 		}

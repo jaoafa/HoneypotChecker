@@ -28,8 +28,8 @@ public class Honeypot implements CommandExecutor {
 			return true;
 		}
 		Player player = (Player) sender;
-		if(!PermissionsEx.getUser(player).inGroup("Admin")){
-			HoneypotChecker.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
+		if(!(PermissionsEx.getUser(player).inGroup("Admin") || PermissionsEx.getUser(player).inGroup("Moderator"))){
+			HoneypotChecker.SendMessage(sender, cmd, "このコマンドは管理部(Moderator含む)のみ使用可能です。");
 			return true;
 		}
 		Statement statement;
