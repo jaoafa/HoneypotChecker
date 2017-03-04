@@ -46,7 +46,6 @@ public class HoneypotBreak implements Listener {
 		if(PermissionsEx.getUser(player).inGroup("Admin")){
 			return;
 		}
-
 		new honeypot_delete(plugin, player).runTaskAsynchronously(plugin);
 		Statement statement;
 		try {
@@ -97,7 +96,7 @@ public class HoneypotBreak implements Listener {
 				UUID uuid = player.getUniqueId();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				long unixtime = System.currentTimeMillis();
-				if(block.getType().isSolid()){
+				if(!block.getType().isSolid()){
 					event.setCancelled(true);
 					return;
 				}
@@ -105,7 +104,7 @@ public class HoneypotBreak implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				statement.executeUpdate("INSERT INTO Honeypot_History (`player`, `uuid`, `world`, `x`, `y`, `z`, `block`, `locid`, `unixtime`, `date`) VALUES ('" + player.getName() + "', '" + player.getUniqueId() + "', '" + block.getLocation().getWorld().getName() + "', " + block.getLocation().getBlockX() + ", " + block.getLocation().getBlockY() + ", " + block.getLocation().getBlockZ() + ", '" + block.getType().toString() + "', " + honeylocid + ", " + unixtime + ", '" + sdf.format(new Date()) + "');");
+				int i = statement.executeUpdate("INSERT INTO Honeypot_History (`player`, `uuid`, `world`, `x`, `y`, `z`, `block`, `locid`, `unixtime`, `date`) VALUES ('" + player.getName() + "', '" + player.getUniqueId() + "', '" + block.getLocation().getWorld().getName() + "', " + block.getLocation().getBlockX() + ", " + block.getLocation().getBlockY() + ", " + block.getLocation().getBlockZ() + ", '" + block.getType().toString() + "', " + honeylocid + ", " + unixtime + ", '" + sdf.format(new Date()) + "');");
 				ResultSet res1 = statement1.executeQuery("SELECT COUNT(id) FROM Honeypot_History WHERE uuid = \"" + uuid + "\";");
 				int count = 0;
 				if(res1.next()){
@@ -152,6 +151,9 @@ public class HoneypotBreak implements Listener {
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
 		if(PermissionsEx.getUser(player).inGroup("Regular")){
+			return;
+		}
+		if(PermissionsEx.getUser(player).inGroup("Moderator")){
 			return;
 		}
 		if(PermissionsEx.getUser(player).inGroup("Admin")){
