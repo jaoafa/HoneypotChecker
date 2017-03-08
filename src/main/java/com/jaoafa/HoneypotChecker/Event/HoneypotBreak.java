@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.BanList;
@@ -31,7 +33,52 @@ public class HoneypotBreak implements Listener {
 	JavaPlugin plugin;
 	public HoneypotBreak(JavaPlugin plugin) {
 		this.plugin = plugin;
+
+		addNotHoneypot();
 	}
+
+	List<Material> NOTHONEYPOT = new ArrayList<Material>();
+
+	private void addNotHoneypot(){
+		NOTHONEYPOT.add(Material.STONE);
+		NOTHONEYPOT.add(Material.GRASS);
+		NOTHONEYPOT.add(Material.DIRT);
+		NOTHONEYPOT.add(Material.BEDROCK);
+		NOTHONEYPOT.add(Material.SAND);
+		NOTHONEYPOT.add(Material.GRAVEL);
+		NOTHONEYPOT.add(Material.GOLD_ORE);
+		NOTHONEYPOT.add(Material.IRON_ORE);
+		NOTHONEYPOT.add(Material.COAL_ORE);
+		NOTHONEYPOT.add(Material.LOG);
+		NOTHONEYPOT.add(Material.LEAVES);
+		NOTHONEYPOT.add(Material.LEAVES_2);
+		NOTHONEYPOT.add(Material.LAPIS_ORE);
+		NOTHONEYPOT.add(Material.SANDSTONE);
+		NOTHONEYPOT.add(Material.BROWN_MUSHROOM);
+		NOTHONEYPOT.add(Material.RED_MUSHROOM);
+		NOTHONEYPOT.add(Material.DIAMOND_ORE);
+		NOTHONEYPOT.add(Material.REDSTONE_ORE);
+		NOTHONEYPOT.add(Material.ICE);
+		NOTHONEYPOT.add(Material.SNOW);
+		NOTHONEYPOT.add(Material.CACTUS);
+		NOTHONEYPOT.add(Material.CLAY);
+		NOTHONEYPOT.add(Material.PUMPKIN);
+		NOTHONEYPOT.add(Material.NETHERRACK);
+		NOTHONEYPOT.add(Material.SOUL_SAND);
+		NOTHONEYPOT.add(Material.GLOWSTONE);
+		NOTHONEYPOT.add(Material.MONSTER_EGG);
+		NOTHONEYPOT.add(Material.HUGE_MUSHROOM_1);
+		NOTHONEYPOT.add(Material.HUGE_MUSHROOM_2);
+		NOTHONEYPOT.add(Material.MYCEL);
+		NOTHONEYPOT.add(Material.ENDER_STONE);
+		NOTHONEYPOT.add(Material.COCOA);
+		NOTHONEYPOT.add(Material.EMERALD_ORE);
+		NOTHONEYPOT.add(Material.QUARTZ_ORE);
+		NOTHONEYPOT.add(Material.STAINED_CLAY);
+		NOTHONEYPOT.add(Material.HARD_CLAY);
+		NOTHONEYPOT.add(Material.PACKED_ICE);
+	}
+
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onHoneypotBreak(BlockBreakEvent event){
@@ -104,7 +151,13 @@ public class HoneypotBreak implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				int i = statement.executeUpdate("INSERT INTO Honeypot_History (`player`, `uuid`, `world`, `x`, `y`, `z`, `block`, `locid`, `unixtime`, `date`) VALUES ('" + player.getName() + "', '" + player.getUniqueId() + "', '" + block.getLocation().getWorld().getName() + "', " + block.getLocation().getBlockX() + ", " + block.getLocation().getBlockY() + ", " + block.getLocation().getBlockZ() + ", '" + block.getType().toString() + "', " + honeylocid + ", " + unixtime + ", '" + sdf.format(new Date()) + "');");
+
+				if(NOTHONEYPOT.contains(block.getType())){
+					event.setCancelled(true);
+					return;
+				}
+
+				statement.executeUpdate("INSERT INTO Honeypot_History (`player`, `uuid`, `world`, `x`, `y`, `z`, `block`, `locid`, `unixtime`, `date`) VALUES ('" + player.getName() + "', '" + player.getUniqueId() + "', '" + block.getLocation().getWorld().getName() + "', " + block.getLocation().getBlockX() + ", " + block.getLocation().getBlockY() + ", " + block.getLocation().getBlockZ() + ", '" + block.getType().toString() + "', " + honeylocid + ", " + unixtime + ", '" + sdf.format(new Date()) + "');");
 				ResultSet res1 = statement1.executeQuery("SELECT COUNT(id) FROM Honeypot_History WHERE uuid = \"" + uuid + "\";");
 				int count = 0;
 				if(res1.next()){
