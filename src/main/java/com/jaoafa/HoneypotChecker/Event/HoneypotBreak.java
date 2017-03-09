@@ -77,6 +77,7 @@ public class HoneypotBreak implements Listener {
 		NOTHONEYPOT.add(Material.STAINED_CLAY);
 		NOTHONEYPOT.add(Material.HARD_CLAY);
 		NOTHONEYPOT.add(Material.PACKED_ICE);
+		NOTHONEYPOT.add(Material.BARRIER);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -84,6 +85,9 @@ public class HoneypotBreak implements Listener {
 	public void onHoneypotBreak(BlockBreakEvent event){
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
+		if(PermissionsEx.getUser(player).inGroup("Default")){
+			return;
+		}
 		if(PermissionsEx.getUser(player).inGroup("Regular")){
 			return;
 		}
@@ -157,6 +161,11 @@ public class HoneypotBreak implements Listener {
 					return;
 				}
 
+				if(player.hasPermission("honeypot.exempt")){
+					event.setCancelled(true);
+					return;
+				}
+
 				statement.executeUpdate("INSERT INTO Honeypot_History (`player`, `uuid`, `world`, `x`, `y`, `z`, `block`, `locid`, `unixtime`, `date`) VALUES ('" + player.getName() + "', '" + player.getUniqueId() + "', '" + block.getLocation().getWorld().getName() + "', " + block.getLocation().getBlockX() + ", " + block.getLocation().getBlockY() + ", " + block.getLocation().getBlockZ() + ", '" + block.getType().toString() + "', " + honeylocid + ", " + unixtime + ", '" + sdf.format(new Date()) + "');");
 				ResultSet res1 = statement1.executeQuery("SELECT COUNT(id) FROM Honeypot_History WHERE uuid = \"" + uuid + "\";");
 				int count = 0;
@@ -187,6 +196,11 @@ public class HoneypotBreak implements Listener {
 						}
 					}
 					HoneypotChecker.url_jaoplugin("honeypot", "p="+player.getName()+"&i="+honeylocid+"&c="+count);
+					for(Player p: Bukkit.getServer().getOnlinePlayers()){
+						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+							p.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + player.getName() + "がHoneypotを破壊しました。(HLocID: " + honeylocid + "|" + count + "/10");
+						}
+					}
 				}
 			}else{
 				if(PermissionsEx.getUser(player).inGroup("Limited")){
