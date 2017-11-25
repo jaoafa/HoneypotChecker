@@ -2,3 +2,5 @@ language: Java
 jdk:
   - openjdk7
   - oraclejdk8
+notifications:
+  webhooks: http://nubesco.jaoafa.com/jaoafa/travisci_notice.php
