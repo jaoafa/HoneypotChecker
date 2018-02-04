@@ -25,9 +25,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.jaoafa.HoneypotChecker.HoneypotChecker;
 import com.jaoafa.HoneypotChecker.MySQL;
+import com.jaoafa.HoneypotChecker.PermissionsManager;
 import com.mcbans.firestar.mcbans.MCBans;
-
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class HoneypotBreak implements Listener {
 	JavaPlugin plugin;
@@ -85,16 +84,17 @@ public class HoneypotBreak implements Listener {
 	public void onHoneypotBreak(BlockBreakEvent event){
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
-		if(PermissionsEx.getUser(player).inGroup("Default")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Default")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Regular")){
+		if(group.equalsIgnoreCase("Regular")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Moderator")){
+		if(group.equalsIgnoreCase("Moderator")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Admin")){
+		if(group.equalsIgnoreCase("Admin")){
 			return;
 		}
 		new honeypot_delete(plugin, player).runTaskAsynchronously(plugin);
@@ -173,7 +173,8 @@ public class HoneypotBreak implements Listener {
 					count = res1.getInt(1);
 				}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()){
-					if(PermissionsEx.getUser(player).inGroup("Admin")){
+					String p_group = PermissionsManager.getPermissionMainGroup(p);
+					if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + player.getName() + "が" + block.getLocation().getBlockX() + " " + block.getLocation().getBlockY() + " " + block.getLocation().getBlockZ() + "を破壊しました。あと" + (10 - count) + "回破壊するとBanされます。");
 					}
 				}
@@ -190,20 +191,20 @@ public class HoneypotBreak implements Listener {
 					player.kickPlayer("[Honeypot] You have been caught destroying a honeypot block.");
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:ban " + player.getName() + " [Honeypot] You have been caught destroying a honeypot block.");
 				}else{
-					if(!PermissionsEx.getUser(player).inGroup("Limited")){
-						if(!PermissionsEx.getUser(player).inGroup("QPPE")){
+					if(!group.equalsIgnoreCase("Limited")){
+						if(!group.equalsIgnoreCase("QPPE")){
 							player.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + "あなたはHoneypotを破壊しました。");
 						}
 					}
 					HoneypotChecker.url_jaoplugin("honeypot", "p="+player.getName()+"&i="+honeylocid+"&c="+count);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()){
-						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+						if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 							p.sendMessage("[HoneypotChecker] " + ChatColor.AQUA + player.getName() + "がHoneypotを破壊しました。(HLocID: " + honeylocid + "|" + count + "/10");
 						}
 					}
 				}
 			}else{
-				if(PermissionsEx.getUser(player).inGroup("Limited")){
+				if(group.equalsIgnoreCase("Limited")){
 					event.setCancelled(true);
 				}
 			}
@@ -217,13 +218,14 @@ public class HoneypotBreak implements Listener {
 	public void onHoneypotPlace(BlockPlaceEvent event){
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
-		if(PermissionsEx.getUser(player).inGroup("Regular")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Regular")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Moderator")){
+		if(group.equalsIgnoreCase("Moderator")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Admin")){
+		if(group.equalsIgnoreCase("Admin")){
 			return;
 		}
 
@@ -275,7 +277,7 @@ public class HoneypotBreak implements Listener {
 				player.sendMessage("[HC] " + ChatColor.AQUA + "この場所で設置行為をすることは禁止されています。");
 				event.setCancelled(true);
 			}else{
-				if(PermissionsEx.getUser(player).inGroup("Limited")){
+				if(group.equalsIgnoreCase("Limited")){
 					event.setCancelled(true);
 				}
 			}

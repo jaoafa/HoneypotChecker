@@ -31,6 +31,7 @@ public class HoneypotChecker extends JavaPlugin {
 
 		getCommand("honeypot").setExecutor(new Honeypot(this));
 		getServer().getPluginManager().registerEvents(new HoneypotBreak(this), this);
+		getServer().getPluginManager().registerEvents(new PermissionsManager(this), this);
 
 		FileConfiguration conf = getConfig();
 		if(conf.contains("sqluser") && conf.contains("sqlpassword")){

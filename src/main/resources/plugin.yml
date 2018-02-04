@@ -4,7 +4,7 @@ version: 0.0.3
 description: Honeypot Plugin
 database: true
 author: mine_book000
-softdepend: [PermissionsEx, MCBans]
+softdepend: [PermissionsEx, LuckPerms, MCBans]
 website: https://jaoafa.com/
 commands:
    honeypot:

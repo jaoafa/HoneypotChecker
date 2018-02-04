@@ -14,8 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jaoafa.HoneypotChecker.HoneypotChecker;
 import com.jaoafa.HoneypotChecker.MySQL;
-
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import com.jaoafa.HoneypotChecker.PermissionsManager;
 
 public class Honeypot implements CommandExecutor {
 	JavaPlugin plugin;
@@ -28,7 +27,8 @@ public class Honeypot implements CommandExecutor {
 			return true;
 		}
 		Player player = (Player) sender;
-		if(!(PermissionsEx.getUser(player).inGroup("Admin") || PermissionsEx.getUser(player).inGroup("Moderator"))){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(!(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator"))){
 			HoneypotChecker.SendMessage(sender, cmd, "このコマンドは管理部(Moderator含む)のみ使用可能です。");
 			return true;
 		}
