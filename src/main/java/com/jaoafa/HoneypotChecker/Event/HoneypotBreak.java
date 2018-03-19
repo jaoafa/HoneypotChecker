@@ -186,7 +186,7 @@ public class HoneypotBreak implements Listener {
 					//player.chat("I have been caught destroying a honeypot block.");
 					Date date = new Date();
 					Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), "[Honeypot] You have been caught destroying a honeypot block.", date, "[Honeypot]");
-					player.setBanned(true);
+
 					MCBans.getInstance().getAPI(plugin).localBan(player.getName(), player.getUniqueId().toString(), "[Honeypot]", "", "[Honeypot] You have been caught destroying a honeypot block.");
 					player.kickPlayer("[Honeypot] You have been caught destroying a honeypot block.");
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:ban " + player.getName() + " [Honeypot] You have been caught destroying a honeypot block.");
