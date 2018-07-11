@@ -1,6 +1,6 @@
-name: HoneypotChecker
+name: ${project.artifactId}
 main: com.jaoafa.HoneypotChecker.HoneypotChecker
-version: 0.0.3
+version: ${project.version}
 description: Honeypot Plugin
 database: true
 author: mine_book000
